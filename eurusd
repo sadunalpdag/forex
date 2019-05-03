@@ -1,0 +1,108 @@
+import time
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
+from scipy import stats
+
+
+
+anc = 1000
+print(type(anc))
+data = []
+data_moving =[]
+timeseries = []
+
+def executeSomething():
+
+    global anc
+    abc=0
+    xyz=0
+
+
+
+
+
+    quote_page = 'https://markets.businessinsider.com/currencies/eur-usd'
+    page = urlopen(quote_page)
+    soup = BeautifulSoup(page, 'html.parser')
+
+    instructions = soup.find("div", {"data-field": "Mid"})
+    time2 = soup.find("div", {"data-field": "MidTimestamp"})
+
+    print(time2.get_text(strip=True))
+
+
+    print(instructions.get_text(strip=True))
+
+    abc = float(instructions.get_text(strip=True))
+    print (type(abc))
+
+
+    time.sleep(750)
+
+    instructions = 0
+    instructions1 = 0
+    quote_page = 'https://markets.businessinsider.com/currencies/eur-usd'
+    page = urlopen(quote_page)
+    soup = BeautifulSoup(page, 'html.parser')
+
+    instructions1 = soup.find("div", {"data-field": "Mid"})
+    time3 = soup.find("div", {"data-field": "MidTimestamp"})
+    xyz = float(instructions1.get_text(strip=True))
+    if anc > 0:
+
+        print(anc)
+        data.insert(anc, xyz)
+        print(data, "data")
+        print(anc)
+    x = sum(data)
+    y = len(data)
+    m = x / y
+    format(m, '.2f')
+    timeseries = []
+
+    timeseries = list(range(0, len(data)))
+
+    print(timeseries, "timeseries")
+    print(anc)
+    data_moving.insert(anc, m)
+    print(data_moving, "data_moving")
+    slope, intercept, r_value, p_value, std_err = stats.linregress(timeseries, data_moving)
+
+    fark_yon = xyz - m
+
+    print("slope: %f    intercept: %f" % (slope, intercept))
+    if slope > 0 and fark_yon > 0:
+        print("yon yukarı")
+    else:
+        print("yon asagı")
+
+    print(anc)
+    print(x, "toplam")
+    print(y, "adet")
+    print(m, "ort")
+
+    print(type(xyz))
+    print(time3.get_text(strip=True))
+    print(instructions1.get_text(strip=True))
+    fark = abc - xyz
+    print(fark,"fark")
+
+
+    if abc==xyz:
+        print(abc,"if icinde")
+        print(xyz,"if icinde")
+        print ("degerler aynı")
+
+    else:
+        print ("degerler farklı")
+        print(abc, "if icinde")
+        print(xyz, "if icinde")
+
+
+
+
+
+while True:
+
+    executeSomething()
+    anc -=1
