@@ -1,0 +1,23 @@
+import smtplib
+
+def sendmail(message, passwd):
+
+    fromadd = 'sadunalpdag2@gmail.com'
+    toadd = 'sadun.alpdag@gmail.com,sadunalpdag2@gmail.com '
+
+    msg = message
+    username = 'sadunalpdag2@gmail.com'
+
+
+    try:
+        server = smtplib.SMTP('smtp.gmail.com:587')
+        server.ehlo()
+        server.starttls()
+        server.login(username, passwd)
+
+        server.sendmail(fromadd, toadd, msg)
+        print("Mail Send Successfully")
+        server.quit()
+
+    except:
+        print("Error:unable to send mail")
