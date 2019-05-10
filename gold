@@ -1,0 +1,167 @@
+import time
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
+from scipy import stats
+import algo_forex as slpmv
+import sendmail as sendmail
+from datetime import datetime
+
+
+
+anc = 0
+a4c = 0
+print(type(anc))
+data = []
+data_moving =[]
+timeseries = []
+timeseries4saat =[]
+data_moving4saat = []
+data4_saat =[]
+slope = 0
+
+def executeSomething():
+
+    global anc
+    global a4c
+    global slope
+    abc=0
+    xyz=0
+    oldabc=0
+    abcstr=0
+    oldxyz=0
+    xyzstr=0
+    yon=0
+    msg=0
+    yon2=0
+    mesaj=0
+
+
+
+
+    quote_page = 'https://markets.businessinsider.com/commodities/gold-price'
+    page = urlopen(quote_page)
+    soup = BeautifulSoup(page, 'html.parser')
+
+    instructions = soup.find("div", {"data-field": "Mid"})
+    time2 = soup.find("div", {"data-field": "MidTimestamp"})
+
+    print(time2.get_text(strip=True))
+
+
+    print(instructions.get_text(strip=True))
+
+    oldabc = (instructions.get_text(strip=True))
+
+    abcstr = oldabc.replace(",", "")
+
+    print(abcstr)
+
+    abc = float(abcstr)
+    print (type(abc))
+    now = datetime.now()
+    datelim = now.strftime("%H: %w")
+    print (datelim)
+    if datelim == ("23: 5"):
+        print("sistem haftasonu")
+        time.sleep(172800)
+    else:
+        time.sleep(15)
+
+    instructions = 0
+    instructions1 = 0
+    quote_page = 'https://markets.businessinsider.com/commodities/gold-price'
+    page = urlopen(quote_page)
+    soup = BeautifulSoup(page, 'html.parser')
+
+    instructions1 = soup.find("div", {"data-field": "Mid"})
+    time3 = soup.find("div", {"data-field": "MidTimestamp"})
+
+    oldxyz = (instructions1.get_text(strip=True))
+
+    xyzstr = oldxyz.replace(",", "")
+
+    print(xyzstr)
+
+    xyz = float(xyzstr)
+    print(type(xyz))
+
+    if anc >=0:
+
+        print(anc)
+        data.insert(anc, xyz)
+        print(data, "data")
+        print(anc)
+    data_4saat = data[0::5]
+    x = sum(data_4saat)
+    y = len(data_4saat)
+    m = x / y
+    format(m, '.2f')
+    fark_yon = xyz - m
+    print (data_4saat)
+
+
+
+
+
+    print(anc)
+
+    print (type(a4c))
+    if anc % 5 ==0:
+         data_moving4saat.insert(a4c, m) #her 540 saniyede bir alıyor
+
+         timeseries4saat = list(range(0, len(data_moving4saat)))
+         slope, intercept, r_value, p_value, std_err = stats.linregress(timeseries4saat, data_moving4saat)
+         print (timeseries4saat)
+
+         print(data_moving4saat, "datamoving4 saat")
+         print("slope: %f " % (slope))
+    else:
+         print ("olmadı")
+
+
+
+    yon = slpmv.slopeandmovingaveragelimit(slope1 = slope, fark_yon1 = fark_yon                                                                                                                                                             )
+
+    print(yon,"yonfonksiyondan gelen")
+
+
+    yon2 = str(yon)
+    print(type(yon2))
+    print (yon2, "yon2")
+    mesaj = yon2,m ,slope,"altin"
+    print (mesaj)
+
+
+    print(anc)
+    print(x, "toplam")
+    print(y, "adet")
+    print(m, "ort")
+
+    print(type(xyz))
+    print(time3.get_text(strip=True))
+    print(instructions1.get_text(strip=True))
+    fark = abc - xyz
+    print(fark,"fark")
+
+
+    if abc==xyz:
+        print(abc,"if icinde")
+        print(xyz,"if icinde")
+        print ("degerler aynı")
+
+    else:
+        print ("degerler farklı")
+        print(abc, "if icinde")
+        print(xyz, "if icinde")
+
+    if yon2 == "yonortada":
+        print("yonortada mail yok")
+    else:
+        sendmail.sendmail(message = mesaj, passwd ='271145nazan')
+
+
+
+while True:
+
+    executeSomething()
+    anc +=1
