@@ -1,0 +1,36 @@
+
+
+def slopeandmovingaveragelimit(slope1, fark_yon1):
+    if slope1 > 0 and fark_yon1 > 10:
+        print("yon asagi")
+        yon = "yonasagi"
+    elif slope1 > 0 and fark_yon1 > 15:
+        print("yon asagıyukoran")
+        yon = "yonyukariyukoran"
+
+    elif slope1 > 0 and fark_yon1 < -10:
+        print("yon yukariyukoran")
+        yon = "yonyukariyukoran"
+    elif slope1 > 0 and fark_yon1 < -5:
+
+        print("yon yukari")
+        yon = "yonyukari"
+    elif slope1 < 0 and fark_yon1 > 10:
+        print("yon asagı%100")
+        yon = "yonasagi%100"
+    elif slope1 < 0 and fark_yon1 > 5:
+
+        print("yon asagi")
+        yon = "yonasagi"
+    elif slope1 < 0 and fark_yon1 < -10:
+        print("yon yukari")
+        yon = "yonyukari"
+    elif slope1 < 0 and fark_yon1 < -15:
+        print("yon yukariyukoran")
+        yon = "yonyukariyukoran"
+
+    else:
+        yon = "yonortada"
+        print("yon ortada fonksiiyondan")
+
+    return(yon)
