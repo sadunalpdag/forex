@@ -1,0 +1,12 @@
+import simplejson
+
+
+
+def write_file(list_of_data,text_file):
+
+    f = open(text_file, 'w')
+
+    simplejson.dump(list_of_data, f)
+
+    f.close()
+
