@@ -1,0 +1,32 @@
+import write_file as intofile
+from scipy import stats
+def movingaverage(adet,text_file,data_list,data_ort_list):
+
+    a4c = len(data_list)
+    global slope
+    global m
+    if a4c >= adet:
+        print("burada silmeye basla")
+
+        x = sum(data_list[-adet:])
+
+        m = x / adet
+
+        data_ort_list_len = len(data_ort_list)
+        data_ort_list.insert(data_ort_list_len,m)  # her 540 saniyede bir alıyor
+
+        intofile.write_file(data_ort_list, text_file)
+        print(len(data_list), "lenght_data_4 saat")
+
+        timeseries4saat = list(range(0, len(data_ort_list)))
+        print(len(data_list), "lenghtdatamoving")
+        slope, intercept, r_value, p_value, std_err = stats.linregress(timeseries4saat, data_ort_list)
+        print(timeseries4saat)
+
+        print(data_ort_list, "datamoving4 saat")
+        print("slope: %f " % (slope))
+    else:
+        m = 0
+        slope = 0
+
+    return slope, m
